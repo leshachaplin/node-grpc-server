@@ -19,6 +19,7 @@ function main() {
     });
     server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
     server.start();
+
     console.log('server start on port 0.0.0.0:50051');
 }
 

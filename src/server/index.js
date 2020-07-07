@@ -1,12 +1,17 @@
 const service = require('../../src/service/user');
-const {messages} = require('../../src/auth/auth_pb');
+const messages = require('../../src/auth/auth_pb');
 
 let grpc = require('grpc');
 
 function signUpRequest(call, callback) {
-    let reply = new messages.SignUpRequest();
-    reply.EmptyResponse(call.request.SignUp());
-    callback(null, reply);
+    service.SignUp(call.request.getLogin(), call.request.getPassword()).then(() => {
+        let reply = new messages.EmptyResponse();
+        callback(null, reply);
+    }).catch(error => {
+        console.log(error);
+        let reply = new messages.EmptyResponse();
+        callback(null, reply);
+    })
 }
 
 //TODO:implement me

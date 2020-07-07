@@ -1,18 +1,27 @@
 const userDB = require('../server/db/queries/user');
 const {User} = require('../server/models/user');
 
-function SignUp(login, password) {
+async function SignUp(login, password) {
     if (login === '' || password === '') {
-        return new Error('invalid password or login');
+        throw new Error('invalid password or login');
     }
 
-    if (userDB.ifExistUser(login)) {
-        return new Error('enter other login');
+    if (await userDB.ifExistUser(login)) {
+        throw new Error('enter other login');
     }
 
     let user = new User(login, false, password);
+    return userDB.addUser(user);
+}
 
-    userDB.addUser(user);
+async function SignIn(login, password) {
+    const user = userDB.findUser(login);
+
+    if (!user) {
+        throw new Error("user not found");
+    } else {
+
+    }
 }
 
 module.exports = {

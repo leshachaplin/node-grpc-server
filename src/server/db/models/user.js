@@ -3,14 +3,18 @@ const {Claim} = require('./claim');
 const {Refresh} = require('./refresh');
 const {Confirmation} = require('./confirmation');
 const {Restore} = require('./restore');
-//const db = require('../../db');
+const knex = require('../connection');
 
-//Model.knex(db);
+Model.knex(knex);
 
 class User extends Model {
 
     static get tableName() {
-        return 'user';
+        return 'users';
+    }
+
+    static get idColumn() {
+        return 'UserId';
     }
 
     static get jsonSchema() {

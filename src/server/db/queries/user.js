@@ -1,4 +1,4 @@
-//const knex = require('../connection');
+const knex = require('../connection');
 const {User} = require('../models/user')
 //const {UserClass} = require('../../models/user')
 
@@ -8,9 +8,11 @@ function findUser(UserId) {
         .where('UserId', '=', UserId);
 }
 
-function ifExistUser(id) {
-    let user = User.query().findOne({UserId: id});
-    if (user == null) {
+async function ifExistUser(id) {
+    console.log(id);
+    let user = await User.query().findOne({UserId: id});
+    console.log(user);
+    if (!user) {
         return false;
     }
     return true;
@@ -19,7 +21,7 @@ function ifExistUser(id) {
 function addUser(user) {
     return User.query()
         .insert({
-            UserId: user.getUserId,
+            UserId: user.getUserID,
             Password: user.getUserPassword,
             Confirmed: user.getUserConfirmationInfo
         });
