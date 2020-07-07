@@ -1,5 +1,4 @@
 const {Model} = require('objection');
-const {User} = require('./user');
 //const db = require('../../db');
 
 //Model.knex(db);
@@ -22,13 +21,18 @@ class Claim extends Model {
         }
     }
 
-    static relationMappings = {
-        user: {
-            relation: Model.HasManyRelation,
-            modelClass: User,
-            join: {
-                from: 'Claim.UserId',
-                to: 'User.UserId'
+    static get relationMappings() {
+
+        const User = require('./user');
+
+        return {
+            user: {
+                relation: Model.ManyToManyRelation,
+                modelClass: User,
+                join: {
+                    from: 'Claim.UserId',
+                    to: 'User.UserId'
+                }
             }
         }
     }
